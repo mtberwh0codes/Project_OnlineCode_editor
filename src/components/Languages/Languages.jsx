@@ -4,8 +4,7 @@ import styled from "styled-components";
 const List = styled.select`
   border-radius: 10px;
   border: 2px solid white;
-  height: 40px;
-  margin: 5px 0px;
+  height: 5vh;
   padding-left: 10px;
   font-size: 18px;
   background: hsl(0 0% 10%);
@@ -48,6 +47,10 @@ const data = [
   {
     language: "c",
     version: "10.2.0",
+  },
+  {
+    language: "html",
+    version: "5",
   },
 ];
 

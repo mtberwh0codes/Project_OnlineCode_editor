@@ -3,29 +3,25 @@ import { Editor } from "@monaco-editor/react";
 import Languages from "../Languages/Languages";
 import styled from "styled-components";
 import OutputContainer from "../OutputContainer/OutputContainer";
-
-const EditorContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  margin: 0px;
-  background: hsl(0 0% 0%);
-`;
+import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 
 const EditorBox = styled.div`
   display: flex;
   flex-direction: column;
-  width: 600px;
-  height: 500px;
-  border-radius: 20px;
   background: hsl(0 0% 5%);
-  padding: 20px;
-  margin: auto 20px;
-  gap: 20px;
 `;
 
 const OutputBox = styled.div`
-margin: auto 20px;
+  border-left: 1px solid white;
 `;
+
+const SelectionPane = styled.div`
+display: flex;
+box-sizing: border-box;
+margin: 0;
+padding: 0;
+`;
+
 function CodeEditor() {
   const editorRef = React.useRef();
   const [value, setValue] = React.useState(``);
@@ -35,34 +31,46 @@ function CodeEditor() {
     editor.focus();
   };
   return (
-    <EditorContainer>
-      <EditorBox>
-        <Languages language={language} setLanguage={setLanguage} />
-
-        <div
+    <>
+      <PanelGroup autoSaveId="example" direction="horizontal"
+      style={{
+        display: "flex",
+        alignContent: "stretch"
+      }}
+      >
+        <Panel defaultSize={50}>
+          <EditorBox>
+            <SelectionPane>
+              <Languages language={language} setLanguage={setLanguage} />
+            </SelectionPane>
+            
+            <Editor
+              height="95vh"
+              theme="vs-dark"
+              language={language}
+              value={value}
+              onChange={(value) => setValue(value)}
+              onMount={onMount}
+              options={{
+                cursorBlinking: "expand",
+                readOnly: false,
+                cursorStyle: 'line',
+              }}
+            />
+          </EditorBox>
+        </Panel>
+        <PanelResizeHandle
           style={{
-            borderRadius: "10px",
-            overflow: "hidden",
-            height: "500px",
-            width: "600px",
+            background: "white",
           }}
-        >
-          <Editor
-            height="100%"
-            width="100%"
-            theme="vs-dark"
-            language={language}
-            value={value}
-            onChange={(value) => setValue(value)}
-            onMount={onMount}
-          />
-        </div>
-      </EditorBox>
-       <OutputBox>
-        <OutputContainer CodeSnippet={value} language={language} />
-       </OutputBox>
-      
-    </EditorContainer>
+        />
+        <Panel defaultSize={50}>
+          <OutputBox>
+            <OutputContainer CodeSnippet={value} language={language} />
+          </OutputBox>
+        </Panel>
+      </PanelGroup>
+    </>
   );
 }
 

@@ -2,19 +2,15 @@ import React from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { LANGUAGE_VERSIONS } from "../../constants.js";
-import { Play } from "react-feather";
 
 const Container = styled.div`
-  height: 520px;
-  width: 600px;
-  padding-top: 30px;
-  padding-left: 30px;
-  border-radius: 20px;
   background: hsl(0 0% 5%);
+  box-sizing: border-box;
+  padding: 20px 0px 20px 20px;
+  height: 100vh;
 `;
 
 const Button = styled.button`
-border-radius : 10px;
 border: 1px solid white;
 background: hsl(0 0% 10%);
 font-size: 20px;
