@@ -4,10 +4,11 @@ import axios from "axios";
 import { LANGUAGE_VERSIONS } from "../../constants.js";
 
 const Container = styled.div`
-  background: hsl(0 0% 5%);
+  background: hsl(0 0% 10%);
   box-sizing: border-box;
   padding: 20px 0px 20px 20px;
-  height: 100vh;
+  margin: 0;
+  height: 100%
 `;
 
 const Button = styled.button`
@@ -32,13 +33,13 @@ const Output = styled.p`
  font-size: 18px;
 `;
 
-function OutputContainer({ CodeSnippet, language }) {
+function OutputContainer({ CodeSnippet, language, userInput }) {
   const [isCompiling, setIsCompiling] = React.useState(false);
   const [output, setIsOutput] = React.useState();
   React.useEffect(() => {
     if(isCompiling){
 
-      const response = async (language, CodeSnippet) => {
+      const response = async (language, CodeSnippet,userInput) => {
         try {
           const result = await axios.post(
             "https://emkc.org/api/v2/piston/execute",
@@ -50,15 +51,17 @@ function OutputContainer({ CodeSnippet, language }) {
                   content: CodeSnippet,
                 },
               ],
+              stdin: userInput,
             }
           );
           const {run} = result.data;
           setIsOutput(run.output);
+          console.log(result);
         } catch (error) {
           console.log(error);
         }
       };
-       response(language,CodeSnippet);
+       response(language,CodeSnippet,userInput);
     }
   }, [isCompiling]);
 

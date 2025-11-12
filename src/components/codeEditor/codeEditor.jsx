@@ -4,6 +4,7 @@ import Languages from "../Languages/Languages";
 import styled from "styled-components";
 import OutputContainer from "../OutputContainer/OutputContainer";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
+import InputContainer from "../InputContainer/InputContainer";
 
 const EditorBox = styled.div`
   display: flex;
@@ -13,37 +14,64 @@ const EditorBox = styled.div`
 
 const OutputBox = styled.div`
   border-left: 1px solid white;
+  height: 100%;
+  overflow: auto;
 `;
 
 const SelectionPane = styled.div`
-display: flex;
-box-sizing: border-box;
-margin: 0;
-padding: 0;
+  display: flex;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+`;
+
+const ResultContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
 `;
 
 function CodeEditor() {
   const editorRef = React.useRef();
   const [value, setValue] = React.useState(``);
   const [language, setLanguage] = React.useState("Javascript");
+  const [userInput, setUserInput] = React.useState("");
+  const [srcDoc, setSrcDoc] = React.useState("");
   const onMount = (editor) => {
     editorRef.current = editor;
     editor.focus();
   };
+
+  React.useEffect(() => {
+    if (language.toLowerCase() === "html") {
+      const timeout = setTimeout(() => {
+        // Directly use the user's HTML (includes <style> and <script> support)
+        const doc = `
+        <!DOCTYPE html>
+        <html lang="en">
+          ${value}
+        </html>
+      `;
+        setSrcDoc(doc);
+      }, 300);
+
+      return () => clearTimeout(timeout);
+    }
+  }, [value, language]);
+
   return (
     <>
-      <PanelGroup autoSaveId="example" direction="horizontal"
-      style={{
-        display: "flex",
-        alignContent: "stretch"
-      }}
+      <PanelGroup
+        autoSaveId="example"
+        direction="horizontal"
       >
-        <Panel defaultSize={50}>
+        <Panel defaultSize={60}>
           <EditorBox>
             <SelectionPane>
               <Languages language={language} setLanguage={setLanguage} />
             </SelectionPane>
-            
+
             <Editor
               height="95vh"
               theme="vs-dark"
@@ -54,7 +82,7 @@ function CodeEditor() {
               options={{
                 cursorBlinking: "expand",
                 readOnly: false,
-                cursorStyle: 'line',
+                cursorStyle: "line",
               }}
             />
           </EditorBox>
@@ -64,10 +92,56 @@ function CodeEditor() {
             background: "white",
           }}
         />
-        <Panel defaultSize={50}>
-          <OutputBox>
-            <OutputContainer CodeSnippet={value} language={language} />
-          </OutputBox>
+        <Panel defaultSize={40}
+        style={{
+          borderLeft: "1px solid",
+        }}
+        >
+          {language.toLowerCase() === "html" ? (
+            <iframe
+              srcDoc={srcDoc}
+              title="HTML Output"
+              sandbox="allow-scripts allow-same-origin"
+              width="100%"
+              height="100%"
+              style={{
+                backgroundColor: "white",
+                border: "2px solid red",
+              }}
+            />
+          ) : (
+            <ResultContainer>
+              <PanelGroup
+                direction="vertical"
+                // style={{
+                //   height: "100%",
+                // }}
+              >
+                <Panel defaultSize={50}>
+                  <OutputBox>
+                    <OutputContainer
+                      CodeSnippet={value}
+                      language={language}
+                      userInput={userInput}
+                    />
+                  </OutputBox>
+                </Panel>
+                <PanelResizeHandle
+                  style={{
+                    backgroundColor: "blue",
+                    // border: "5px solid blue"
+                  }}
+                />
+
+                <Panel defaultSize={50}>
+                    <InputContainer
+                      userInput={userInput}
+                      setUserInput={setUserInput}
+                    />
+                </Panel>
+              </PanelGroup>
+            </ResultContainer>
+          )}
         </Panel>
       </PanelGroup>
     </>
