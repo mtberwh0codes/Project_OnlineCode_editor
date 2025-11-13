@@ -33,11 +33,13 @@ const ResultContainer = styled.div`
 `;
 
 function CodeEditor() {
+
   const editorRef = React.useRef();
   const [value, setValue] = React.useState(``);
-  const [language, setLanguage] = React.useState("Javascript");
+  const [language, setLanguage] = React.useState("");
   const [userInput, setUserInput] = React.useState("");
   const [srcDoc, setSrcDoc] = React.useState("");
+
   const onMount = (editor) => {
     editorRef.current = editor;
     editor.focus();
@@ -46,7 +48,7 @@ function CodeEditor() {
   React.useEffect(() => {
     if (language.toLowerCase() === "html") {
       const timeout = setTimeout(() => {
-        // Directly use the user's HTML (includes <style> and <script> support)
+        
         const doc = `
         <!DOCTYPE html>
         <html lang="en">
@@ -60,12 +62,10 @@ function CodeEditor() {
     }
   }, [value, language]);
 
+
   return (
     <>
-      <PanelGroup
-        autoSaveId="example"
-        direction="horizontal"
-      >
+      <PanelGroup autoSaveId="horizontal-layout" direction="horizontal">
         <Panel defaultSize={60}>
           <EditorBox>
             <SelectionPane>
@@ -92,10 +92,11 @@ function CodeEditor() {
             background: "white",
           }}
         />
-        <Panel defaultSize={40}
-        style={{
-          borderLeft: "1px solid",
-        }}
+        <Panel
+          defaultSize={40}
+          style={{
+            borderLeft: "1px solid",
+          }}
         >
           {language.toLowerCase() === "html" ? (
             <iframe
@@ -113,9 +114,10 @@ function CodeEditor() {
             <ResultContainer>
               <PanelGroup
                 direction="vertical"
-                // style={{
-                //   height: "100%",
-                // }}
+                autoSaveId="vertical-layout"
+                style={{
+                  height: "100%",
+                }}
               >
                 <Panel defaultSize={50}>
                   <OutputBox>
@@ -134,10 +136,10 @@ function CodeEditor() {
                 />
 
                 <Panel defaultSize={50}>
-                    <InputContainer
-                      userInput={userInput}
-                      setUserInput={setUserInput}
-                    />
+                  <InputContainer
+                    userInput={userInput}
+                    setUserInput={setUserInput}
+                  />
                 </Panel>
               </PanelGroup>
             </ResultContainer>

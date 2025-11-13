@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+
 const InputDiv = styled.div`
   box-sizing: borderbox;
   margin: 0;
@@ -17,6 +18,7 @@ const InputArea = styled.textarea`
   height: 100%;
   width: 100%;
   padding: 20px;
+  color: green;
 `;
 
 function InputContainer({userInput,setUserInput}) {
