@@ -21,7 +21,7 @@ const OutputBox = styled.div`
 const SelectionPane = styled.div`
   display: flex;
   box-sizing: border-box;
-  margin: 0;
+  margin: 0.5vh 0px;
   padding: 0;
 `;
 
@@ -33,7 +33,6 @@ const ResultContainer = styled.div`
 `;
 
 function CodeEditor() {
-
   const editorRef = React.useRef();
   const [value, setValue] = React.useState(``);
   const [language, setLanguage] = React.useState("");
@@ -48,7 +47,6 @@ function CodeEditor() {
   React.useEffect(() => {
     if (language.toLowerCase() === "html") {
       const timeout = setTimeout(() => {
-        
         const doc = `
         <!DOCTYPE html>
         <html lang="en">
@@ -62,14 +60,18 @@ function CodeEditor() {
     }
   }, [value, language]);
 
-
   return (
     <>
       <PanelGroup autoSaveId="horizontal-layout" direction="horizontal">
         <Panel defaultSize={60}>
           <EditorBox>
             <SelectionPane>
-              <Languages language={language} setLanguage={setLanguage} />
+              <Languages
+                language={language}
+                setLanguage={setLanguage}
+                value={value}
+                setValue={setValue}
+              />
             </SelectionPane>
 
             <Editor
@@ -107,7 +109,7 @@ function CodeEditor() {
               height="100%"
               style={{
                 backgroundColor: "white",
-                border: "2px solid red",
+                border: "2px solid white",
               }}
             />
           ) : (

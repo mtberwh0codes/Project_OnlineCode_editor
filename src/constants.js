@@ -14,27 +14,21 @@ export const LANGUAGE_VERSIONS =  {
 
 const BOILERPLATE_CODE_SNIPPETS = {
 
-  javascript: `
-
-function greet(name) {
+  javascript: `function greet(name) {
   return \`Hello, \${name}!\`;
 }
 
 console.log(greet("World"));
 `,
 
-  typescript: `
-
-function greet(name: string): string {
+  typescript: `function greet(name: string): string {
   return \`Hello, \${name}!\`;
 }
 
 console.log(greet("World"));
 `,
 
-  python: `
-
-def greet(name):
+  python: `def greet(name):
     return f"Hello, {name}!"
 
 print(greet("World"))
@@ -49,18 +43,14 @@ function greet($name) {
 echo greet("World");
 ?>`,
 
-  swift: `
-
-func greet(name: String) -> String {
+  swift: `func greet(name: String) -> String {
     return "Hello, \\(name)!"
 }
 
 print(greet(name: "World"))
 `,
 
-  java: `
-
-public class Main {
+  java: `public class Main {
     public static void main(String[] args) {
         System.out.println(greet("World"));
     }
@@ -71,9 +61,7 @@ public class Main {
 }
 `,
 
-  cpp: `
-
-#include <iostream>
+  cpp: `#include <iostream>
 using namespace std;
 
 string greet(string name) {
@@ -86,11 +74,8 @@ int main() {
 }
 `,
 
-  c: `
-
-#include <stdio.h>
-
-void greet(char name[]) {
+  c: `#include <stdio.h>
+  void greet(char name[]) {
     printf("Hello, %s!\\n", name);
 }
 
@@ -100,8 +85,7 @@ int main() {
 }
 `,
 
-  html: `
-<!DOCTYPE html>
+  html: `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />

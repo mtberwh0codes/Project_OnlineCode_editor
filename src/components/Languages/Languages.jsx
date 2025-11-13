@@ -1,10 +1,11 @@
 import React from "react";
 import styled from "styled-components";
+import BOILERPLATE_CODE_SNIPPETS from "../../constants";
 
 const List = styled.select`
   border-radius: 10px;
   border: 2px solid white;
-  height: 5vh;
+  height: 4vh;
   padding-left: 10px;
   font-size: 18px;
   background: hsl(0 0% 10%);
@@ -54,12 +55,13 @@ const data = [
   },
 ];
 
-function Languages({ language, setLanguage }) {
+function Languages({ language, setLanguage,  setValue }) {
   return (
     <List
       value={language}
       onChange={(event) => {
         setLanguage(event.target.value);
+        setValue(BOILERPLATE_CODE_SNIPPETS[event.target.value]);
       }}
     >
       <option value="">Select Language</option>
